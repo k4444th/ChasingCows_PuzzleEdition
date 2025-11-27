@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://ddplnjg3hb8pd"]
+
+[ext_resource type="Texture2D" uid="uid://d1a4cueleef8o" path="res://assets/levels/tiles/tileDestination.png" id="1_ot7h8"]
+
+[node name="Destination" type="Sprite2D"]
+texture = ExtResource("1_ot7h8")
+centered = false

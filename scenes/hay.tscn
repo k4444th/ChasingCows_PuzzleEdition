@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://b8hflhl7wbla7"]
+
+[ext_resource type="Texture2D" uid="uid://b8lokj1jiywgn" path="res://assets/levels/tiles/tileHay.png" id="1_0gib2"]
+
+[node name="Hay" type="Sprite2D"]
+texture = ExtResource("1_0gib2")
+centered = false

@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://dm20f0apljwsv"]
+
+[ext_resource type="Texture2D" uid="uid://b3oopmkm7tsvc" path="res://assets/cows/cow.png" id="1_fgglk"]
+
+[node name="Cow" type="Sprite2D"]
+texture = ExtResource("1_fgglk")
+centered = false

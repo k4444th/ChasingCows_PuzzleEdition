@@ -5,6 +5,7 @@ signal cowMoved(moveCount: int)
 var tileScene := load("res://scenes/tile.tscn")
 var cowScene := load("res://scenes/cow.tscn")
 var hayScene := load("res://scenes/hay.tscn")
+var rockScene := load("res://scenes/rock.tscn")
 var destinationScene := load("res://scenes/destination.tscn")
 
 var grassTextures: Array = [
@@ -13,10 +14,10 @@ var grassTextures: Array = [
 	# load("res://assets/levels/tiles/tileGrass2.png")
 ]
 
-var cows: Array
-var tiles: Array
+var cowsStart: Array
+var mapStart: Array
 var moveCount: int
-var speed := 0.5
+var cowMoving: bool
 
 @onready var grassNode: Node2D = $Grass
 @onready var obstaclesNode: Node2D = $Obstacles
@@ -48,10 +49,12 @@ func spawnGrass():
 			grassNode.add_child(tileInstance)
 
 func spawnCows():
-	for cow in cows:
+	for cow in cowsStart:
 		var cowInstance = cowScene.instantiate()
+		cowInstance.positionOnMap = cow
 		cowInstance.position.x = cow[0] * Gamemanager.mapTileSize.x
 		cowInstance.position.y = cow[1] * Gamemanager.mapTileSize.y
+		cowInstance.connect("cowMoving", setCowMoving)
 		cowsNode.add_child(cowInstance)
 
 func spawnObstacles():
@@ -59,53 +62,65 @@ func spawnObstacles():
 		for col in range(Gamemanager.mapDimensions.x):
 			var obstacleInstance: Sprite2D = null
 			
-			if tiles[row][col] == "hay":
+			if mapStart[row][col] == "hay":
 				obstacleInstance = hayScene.instantiate()
-			elif  tiles[row][col] == "destination":
+			elif  mapStart[row][col] == "destination":
 				obstacleInstance = destinationScene.instantiate()
+			elif  mapStart[row][col] == "rock":
+				obstacleInstance = rockScene.instantiate()
 			
 			if obstacleInstance:
+				obstacleInstance.positionOnMap = Vector2(col, row)
+				obstacleInstance.obstacleType = mapStart[row][col]
 				obstacleInstance.position.x = col * Gamemanager.mapTileSize.x
 				obstacleInstance.position.y = row * Gamemanager.mapTileSize.y
 				obstaclesNode.add_child(obstacleInstance)
-	tiles[0][0] = "hay"
 
 func moveCow(startPos: Vector2, direction: Vector2):
-	moveCount -= 1
-	cowMoved.emit(moveCount)
-
-	var cowNodes = cowsNode.get_children()
-
-	for cowIndex in cowNodes.size():
-		var cow = cowNodes[cowIndex]
-		var cowRect = Rect2(cow.global_position, Gamemanager.mapTileSize)
-		if cowRect.has_point(startPos):
-			var distanceTiles := 0
-			var currentCowCoords = (cow.position / Gamemanager.mapTileSize).floor()
-
-			while true:
-				currentCowCoords += direction
-				if currentCowCoords.x < 0 or currentCowCoords.x >= Gamemanager.mapDimensions.x:
-					break
-				if currentCowCoords.y < 0 or currentCowCoords.y >= Gamemanager.mapDimensions.y:
-					break
-
-				var tileValue = tiles[currentCowCoords.y][currentCowCoords.x]
-				if tileValue == "":
-					if !cows.has(currentCowCoords):
-						distanceTiles += 1
-						continue
-					else:
-						break
-				if tileValue == "destination":
+	if !cowMoving:
+		moveCount -= 1
+		cowMoved.emit(moveCount)
+		
+		var cowNodes = cowsNode.get_children()
+		
+		for cowNode in cowNodes:
+			var cowRect = Rect2(cowNode.global_position, Gamemanager.mapTileSize)
+			if cowRect.has_point(startPos):
+				var distanceTiles := 0
+				var positionFound := false
+				
+				while !positionFound:
+					cowNode.positionOnMap += direction
 					distanceTiles += 1
-					break
-				break
-
-			cows[cowIndex] = cows[cowIndex] + distanceTiles * direction
-			var destinationPos = cow.position + direction * Gamemanager.mapTileSize * distanceTiles
-			var tween = get_tree().create_tween()
-			tween.tween_property(cow, "position", destinationPos, speed * distanceTiles).set_trans(Tween.TRANS_QUAD)
+					
+					if cowNode.positionOnMap.x < 0 or cowNode.positionOnMap.x > Gamemanager.mapDimensions.x - 1:
+						cowNode.positionOnMap.x = clamp(cowNode.positionOnMap.x, 0, Gamemanager.mapDimensions.x - 1)
+						positionFound = true
+					if cowNode.positionOnMap.y < 0 or cowNode.positionOnMap.y > Gamemanager.mapDimensions.y - 1:
+						cowNode.positionOnMap.y = clamp(cowNode.positionOnMap.y, 0, Gamemanager.mapDimensions.y - 1)
+						positionFound = true
+					
+					for otherCowsNode in cowNodes:
+						if cowNode != otherCowsNode and cowNode.positionOnMap == otherCowsNode.positionOnMap:
+							cowNode.positionOnMap -= direction
+							distanceTiles -= 1
+							positionFound = true
+					
+					for obstacleNode in obstaclesNode.get_children():
+						if cowNode.positionOnMap == obstacleNode.positionOnMap:
+							match obstacleNode.obstacleType:
+								"hay":
+									cowNode.positionOnMap -= direction
+									distanceTiles -= 1
+								"rock":
+									cowNode.positionOnMap -= direction
+									distanceTiles -= 1
+								"destination":
+									pass
+							
+							positionFound = true
+				
+				cowNode.moveCow(distanceTiles)
 
 func resetGame(level):
 	copyLevel(level)
@@ -123,10 +138,9 @@ func deleteObstacles():
 		obstacle.queue_free()
 
 func copyLevel(level):
-	tiles = []
-	for row in level["map"]:
-		tiles.append(row.duplicate())
+	mapStart = level["map"]
 	moveCount = level["moveCount"]
-	cows = []
-	for cow in level["cows"]:
-		cows.append(cow)
+	cowsStart = level["cows"]
+
+func setCowMoving(value: bool):
+	cowMoving = value

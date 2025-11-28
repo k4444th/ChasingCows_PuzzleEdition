@@ -1,6 +1,6 @@
 extends MarginContainer
 
-var level: int = 0
+var level: int = 1
 var defaultMargin: int = 20
 
 var length: int = 50

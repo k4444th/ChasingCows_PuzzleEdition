@@ -34,6 +34,8 @@ var slectedCowIdx := -1
 
 enum directions {STANDING, UP, DOWN, LEFT, RIGHT}
 
+var moveSpeed := 0.5
+
 var levels := {
 	0: {
 		"moveCount": 2,
@@ -47,6 +49,20 @@ var levels := {
 			["", "", "", "", "", ""],
 			["", "", "", "destination", "", ""],
 			["", "", "", "", "", ""],
+		]
+	},
+	1: {
+		"moveCount": 5,
+		"cows": [Vector2(0, 0), Vector2(5, 0)],
+		"map": [
+			["", "", "rock", "", "", ""],
+			["", "", "", "", "", ""],
+			["", "", "", "", "", ""],
+			["", "", "", "", "", ""],
+			["", "", "", "", "", ""],
+			["", "", "", "", "", ""],
+			["", "destination", "", "", "", ""],
+			["", "", "", "", "hay", ""],
 		]
 	}
 }

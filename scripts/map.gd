@@ -114,9 +114,22 @@ func moveCow(startPos: Vector2, direction: Vector2):
 									distanceTiles -= 1
 								"rock":
 									cowNode.positionOnMap -= direction
+									obstacleNode.positionOnMap += direction
 									distanceTiles -= 1
+									
+									if obstacleNode.positionOnMap.x < 0 or obstacleNode.positionOnMap.x > Gamemanager.mapDimensions.x - 1:
+										obstacleNode.positionOnMap.x = clamp(obstacleNode.positionOnMap.x, 0, Gamemanager.mapDimensions.x - 1)
+									if obstacleNode.positionOnMap.y < 0 or obstacleNode.positionOnMap.y > Gamemanager.mapDimensions.y - 1:
+										obstacleNode.positionOnMap.y = clamp(obstacleNode.positionOnMap.y, 0, Gamemanager.mapDimensions.y - 1)
+									
+									for otherCowsNode in cowNodes:
+										if otherCowsNode.positionOnMap == obstacleNode.positionOnMap:
+											obstacleNode.positionOnMap -= direction
+									for otherObstacleNode in obstaclesNode.get_children():
+										if obstacleNode != otherObstacleNode and otherObstacleNode.positionOnMap == obstacleNode.positionOnMap:
+											obstacleNode.positionOnMap -= direction
 								"destination":
-									pass
+									cowNode.despawn = true
 							
 							positionFound = true
 				
@@ -144,3 +157,8 @@ func copyLevel(level):
 
 func setCowMoving(value: bool):
 	cowMoving = value
+	
+	if value == false:
+		for obstacleNode in obstaclesNode.get_children():
+			if obstacleNode.obstacleType == "rock":
+				obstacleNode.move()

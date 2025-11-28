@@ -3,7 +3,15 @@ extends Node
 func _ready():
 	randomize()
 
+var currentLevel: int
+
+var moveSpeed := 0.5
+
+var mapDimensions := Vector2(6, 8)
+
 var mapTileSize := Vector2(250, 250)
+
+var levelMenuDimensions := Vector2(5, 6)
 
 var mapTiles := [
 	{
@@ -27,10 +35,6 @@ var mapTiles := [
 		"imageSrc": "res://assets/levels/tiles/tileMud.png"
 	}
 ]
-
-var mapDimensions := Vector2(6, 8)
-
-var moveSpeed := 0.5
 
 var levels := {
 	0: {

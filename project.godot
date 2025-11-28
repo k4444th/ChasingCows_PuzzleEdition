@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="ChasingCows_PuzzleEdition"
-run/main_scene="uid://2t2we2yhbsxr"
+run/main_scene="uid://bg3rkp6ol2kis"
 config/features=PackedStringArray("4.4", "Forward Plus")
 boot_splash/bg_color=Color(0.537255, 0.682353, 0.411765, 1)
 boot_splash/fullsize=false

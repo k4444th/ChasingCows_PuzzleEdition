@@ -1,0 +1,115 @@
+[gd_scene load_steps=10 format=3 uid="uid://2t2we2yhbsxr"]
+
+[ext_resource type="Script" uid="uid://cxc2a8x0hfuoa" path="res://scripts/level/level.gd" id="1_oustg"]
+[ext_resource type="PackedScene" uid="uid://73r2dei4l8su" path="res://scenes/level/map.tscn" id="2_cy33h"]
+[ext_resource type="Texture2D" uid="uid://dmti0du4mgs0c" path="res://assets/buttons/buttonBack.png" id="3_2r41h"]
+[ext_resource type="Texture2D" uid="uid://dx4m0u2fi7pxw" path="res://assets/buttons/buttonBack_pressed.png" id="4_klq6b"]
+[ext_resource type="Texture2D" uid="uid://dxh04h22dfuno" path="res://assets/buttons/buttonBack_disabled.png" id="5_b121j"]
+[ext_resource type="Texture2D" uid="uid://c47klvhl6xeku" path="res://assets/buttons/buttonRestart.png" id="6_8c41q"]
+[ext_resource type="Texture2D" uid="uid://bgcohiay1e5ih" path="res://assets/level/aluminiumHatBlue.png" id="6_s6mdx"]
+[ext_resource type="Texture2D" uid="uid://bt6ff2opx2w77" path="res://assets/buttons/buttonRestart_pressed.png" id="7_olg7q"]
+[ext_resource type="Texture2D" uid="uid://cgxe2jp3wg3n6" path="res://assets/buttons/buttonRestart_disabled.png" id="8_t1rx8"]
+
+[node name="Level" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_oustg")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.537255, 0.682353, 0.411765, 1)
+
+[node name="Map" parent="." instance=ExtResource("2_cy33h")]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="HBoxContainerTop" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 2
+
+[node name="BackButton" type="TextureButton" parent="VBoxContainer/HBoxContainerTop"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture_normal = ExtResource("3_2r41h")
+texture_pressed = ExtResource("4_klq6b")
+texture_disabled = ExtResource("5_b121j")
+
+[node name="Spacer" type="Control" parent="VBoxContainer/HBoxContainerTop"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ResetButton" type="TextureButton" parent="VBoxContainer/HBoxContainerTop"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture_normal = ExtResource("6_8c41q")
+texture_pressed = ExtResource("7_olg7q")
+texture_disabled = ExtResource("8_t1rx8")
+
+[node name="Spacer" type="Control" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HBoxContainerBottom" type="HBoxContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="AluminiumHat" type="TextureRect" parent="VBoxContainer/HBoxContainerBottom"]
+layout_mode = 2
+texture = ExtResource("6_s6mdx")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainerBottom"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ProgressBar" type="ProgressBar" parent="VBoxContainer/HBoxContainerBottom/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 6
+value = 100.0
+show_percentage = false
+
+[node name="MoveCounter" type="HBoxContainer" parent="VBoxContainer/HBoxContainerBottom"]
+layout_mode = 2
+
+[node name="MovesLeft" type="Label" parent="VBoxContainer/HBoxContainerBottom/MoveCounter"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.0588235, 0.0588235, 0.0705882, 1)
+theme_override_font_sizes/font_size = 50
+text = "0"
+
+[node name="Dash" type="Label" parent="VBoxContainer/HBoxContainerBottom/MoveCounter"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.0588235, 0.0588235, 0.0705882, 1)
+theme_override_font_sizes/font_size = 50
+text = "/"
+
+[node name="TotalMoves" type="Label" parent="VBoxContainer/HBoxContainerBottom/MoveCounter"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.0588235, 0.0588235, 0.0705882, 1)
+theme_override_font_sizes/font_size = 50
+text = "0"
+
+[connection signal="button_down" from="VBoxContainer/HBoxContainerTop/BackButton" to="." method="_on_back_button_button_down"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainerTop/BackButton" to="." method="_on_back_button_button_up"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainerTop/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="button_down" from="VBoxContainer/HBoxContainerTop/ResetButton" to="." method="_on_reset_button_button_down"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainerTop/ResetButton" to="." method="_on_reset_button_button_up"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainerTop/ResetButton" to="." method="_on_reset_button_pressed"]

@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://cjxnn5w0yaq7x"]
+
+[ext_resource type="PackedScene" uid="uid://k3tqyfdvx0x" path="res://scenes/level/obstacle.tscn" id="1_1di36"]
+[ext_resource type="Texture2D" uid="uid://dooxcuxqajcts" path="res://assets/level/tiles/tileRock.png" id="2_mek2u"]
+
+[node name="Rock" instance=ExtResource("1_1di36")]
+texture = ExtResource("2_mek2u")

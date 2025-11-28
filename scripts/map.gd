@@ -78,9 +78,6 @@ func spawnObstacles():
 
 func moveCow(startPos: Vector2, direction: Vector2):
 	if !cowMoving:
-		moveCount -= 1
-		cowMoved.emit(moveCount)
-		
 		var cowNodes = cowsNode.get_children()
 		
 		for cowNode in cowNodes:
@@ -95,9 +92,11 @@ func moveCow(startPos: Vector2, direction: Vector2):
 					
 					if cowNode.positionOnMap.x < 0 or cowNode.positionOnMap.x > Gamemanager.mapDimensions.x - 1:
 						cowNode.positionOnMap.x = clamp(cowNode.positionOnMap.x, 0, Gamemanager.mapDimensions.x - 1)
+						distanceTiles -= 1
 						positionFound = true
 					if cowNode.positionOnMap.y < 0 or cowNode.positionOnMap.y > Gamemanager.mapDimensions.y - 1:
 						cowNode.positionOnMap.y = clamp(cowNode.positionOnMap.y, 0, Gamemanager.mapDimensions.y - 1)
+						distanceTiles -= 1
 						positionFound = true
 					
 					for otherCowsNode in cowNodes:
@@ -114,8 +113,8 @@ func moveCow(startPos: Vector2, direction: Vector2):
 									distanceTiles -= 1
 								"rock":
 									cowNode.positionOnMap -= direction
-									obstacleNode.positionOnMap += direction
 									distanceTiles -= 1
+									obstacleNode.positionOnMap += direction
 									
 									if obstacleNode.positionOnMap.x < 0 or obstacleNode.positionOnMap.x > Gamemanager.mapDimensions.x - 1:
 										obstacleNode.positionOnMap.x = clamp(obstacleNode.positionOnMap.x, 0, Gamemanager.mapDimensions.x - 1)
@@ -128,12 +127,21 @@ func moveCow(startPos: Vector2, direction: Vector2):
 									for otherObstacleNode in obstaclesNode.get_children():
 										if obstacleNode != otherObstacleNode and otherObstacleNode.positionOnMap == obstacleNode.positionOnMap:
 											obstacleNode.positionOnMap -= direction
+									
+									if distanceTiles <= 0:
+										obstacleNode.move()
+										moveCount -= 1
+										cowMoved.emit(moveCount)
+										
 								"destination":
 									cowNode.despawn = true
 							
 							positionFound = true
 				
-				cowNode.moveCow(distanceTiles)
+				if distanceTiles > 0:
+					moveCount -= 1
+					cowMoved.emit(moveCount)
+					cowNode.moveCow(distanceTiles)
 
 func resetGame(level):
 	copyLevel(level)

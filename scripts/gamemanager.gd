@@ -30,10 +30,6 @@ var mapTiles := [
 
 var mapDimensions := Vector2(6, 8)
 
-var slectedCowIdx := -1
-
-enum directions {STANDING, UP, DOWN, LEFT, RIGHT}
-
 var moveSpeed := 0.5
 
 var levels := {

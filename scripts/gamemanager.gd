@@ -11,7 +11,7 @@ var mapDimensions := Vector2(6, 8)
 
 var mapTileSize := Vector2(250, 250)
 
-var levelMenuDimensions := Vector2(5, 6)
+var levelMenuDimensions := Vector2(4, 6)
 
 var mapTiles := [
 	{
@@ -38,6 +38,20 @@ var mapTiles := [
 
 var levels := {
 	0: {
+		"moveCount": 1,
+		"cows": [Vector2(1, 3)],
+		"map": [
+			["", "", "", "", "", ""],
+			["", "", "", "", "", ""],
+			["", "", "", "", "", ""],
+			["", "", "", "", "destination", ""],
+			["", "", "", "", "", ""],
+			["", "", "", "", "", ""],
+			["", "", "", "", "", ""],
+			["", "", "", "", "", ""],
+		]
+	},
+	1: {
 		"moveCount": 2,
 		"cows": [Vector2(0, 0)],
 		"map": [
@@ -51,7 +65,21 @@ var levels := {
 			["", "", "", "", "", ""],
 		]
 	},
-	1: {
+	2: {
+		"moveCount": 5,
+		"cows": [Vector2(0, 1), Vector2(5, 1)],
+		"map": [
+			["", "", "", "", "", ""],
+			["", "", "hay", "", "", ""],
+			["", "", "", "", "", ""],
+			["", "", "", "", "", ""],
+			["", "destination", "", "", "", ""],
+			["", "", "", "hay", "", ""],
+			["", "", "", "", "", ""],
+			["", "", "", "", "", ""],
+		]
+	},
+	3: {
 		"moveCount": 5,
 		"cows": [Vector2(0, 0), Vector2(5, 0)],
 		"map": [

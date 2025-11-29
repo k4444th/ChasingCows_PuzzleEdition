@@ -11,12 +11,15 @@ func setup():
 
 func setScale():
 	var containerSize = get_parent().size
-	var costumScale = containerSize.x / ((Gamemanager.levelMenuDimensions.x + 0.5) * Gamemanager.mapTileSize.x)
+	var costumScale = containerSize.y / ((Gamemanager.levelMenuDimensions.x + 5) * Gamemanager.mapTileSize.y)
 	
-	if containerSize.y * 0.75 < Gamemanager.levelMenuDimensions.y * Gamemanager.mapTileSize.y * costumScale:
-		costumScale = containerSize.y / ((Gamemanager.levelMenuDimensions.x + 5) * Gamemanager.mapTileSize.y)
+	if containerSize.x * 0.8 < Gamemanager.levelMenuDimensions.x * Gamemanager.mapTileSize.x * costumScale:
+		costumScale = containerSize.x / ((Gamemanager.levelMenuDimensions.x + 2) * Gamemanager.mapTileSize.x)
 	
-	position = Vector2(containerSize.x / 2 - ((Gamemanager.levelMenuDimensions.x / 2) * Gamemanager.mapTileSize.x) * costumScale, containerSize.y / 2 - ((Gamemanager.levelMenuDimensions.y / 2) * Gamemanager.mapTileSize.y) * costumScale)
+	position = Vector2(
+		containerSize.x / 2 - ((Gamemanager.levelMenuDimensions.x * Gamemanager.mapTileSize.x * 1.2 - Gamemanager.mapTileSize.x * 0.2)  * costumScale) / 2,
+		containerSize.y / 2 - ((Gamemanager.levelMenuDimensions.y * Gamemanager.mapTileSize.y * 1.2 - Gamemanager.mapTileSize.y * 0.2) * costumScale) / 2
+	)
 	scale = Vector2(costumScale, costumScale)
 
 func showLevelIcons():

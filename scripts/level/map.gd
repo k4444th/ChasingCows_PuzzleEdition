@@ -148,7 +148,7 @@ func moveCow(startPos: Vector2, direction: Vector2):
 				if distanceTiles > 0:
 					moveCount -= 1
 					cowMoved.emit(moveCount)
-					cowNode.moveCow(distanceTiles)
+					cowNode.moveCow(distanceTiles, direction)
 
 func resetGame(level):
 	copyLevel(level)

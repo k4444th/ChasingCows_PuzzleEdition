@@ -1,38 +1,34 @@
-extends Control
+extends Node2D
 
 signal cowMoving(value)
 signal cowDespawned()
 
+@onready var shadowNode: Sprite2D = $Shadow
+@onready var cowNode: AnimatedSprite2D = $Cow
+
 var positionOnMap: Vector2
 var despawn := false
 
-@onready var buttNode: AnimatedSprite2D = $Butt
-@onready var hatNode: AnimatedSprite2D = $Hat
-
 func _ready() -> void:
-	buttNode.animation = "default"
-	hatNode.animation = "default"
+	shadowNode.self_modulate.a = 0.25
+	cowNode.animation = "right"
 
 func moveCow(numTiles: int, direction: Vector2):
 	if direction.x > 0:
-		rotation_degrees = -90
+		cowNode.animation = "right"
 	if direction.x < 0:
-		rotation_degrees = 90
+		cowNode.animation = "left"
 	if direction.y > 0:
-		rotation_degrees = 0
+		cowNode.animation = "front"
 	if direction.y < 0:
-		rotation_degrees = 180
+		cowNode.animation = "back"
 	
-	buttNode.animation = "wiggle"
-	hatNode.animation = "blink"
 	cowMoving.emit(true)
 	var positionTween = get_tree().create_tween()
-	positionTween.tween_property(self, "position", positionOnMap * Gamemanager.mapTileSize, Gamemanager.moveSpeed * numTiles).set_trans(Tween.TRANS_LINEAR)
+	positionTween.tween_property(self, "position", positionOnMap * Gamemanager.mapTileSize + Gamemanager.offset["cow"], Gamemanager.moveSpeed * numTiles).set_trans(Tween.TRANS_LINEAR)
 	await positionTween.finished
 	cowMoving.emit(false)
-	rotation_degrees = 0
-	buttNode.animation = "default"
-	hatNode.animation = "default"
+	cowNode.animation = "right"
 	
 	if despawn:
 		cowDespawned.emit()

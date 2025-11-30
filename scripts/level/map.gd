@@ -13,7 +13,6 @@ var destinationScene := load("res://scenes/level/destination.tscn")
 var grassTextures: Array = [
 	load("res://assets/level/tiles/tileGrass0.png"),
 	load("res://assets/level/tiles/tileGrass1.png"),
-	# load("res://assets/level/tiles/tileGrass2.png")
 ]
 
 var cowsStart: Array
@@ -49,7 +48,7 @@ func spawnGrass():
 	for row in range(Gamemanager.mapDimensions.x):
 		for col in range(Gamemanager.mapDimensions.y):
 			var tileInstance = tileScene.instantiate()
-			tileInstance.texture = grassTextures[randi() % grassTextures.size()]
+			tileInstance.texture = grassTextures[row % 2 if col % 2 == 0 else 1 - row % 2]
 			tileInstance.position.x = row * Gamemanager.mapTileSize.x
 			tileInstance.position.y = col * Gamemanager.mapTileSize.y
 			grassNode.add_child(tileInstance)
@@ -59,7 +58,7 @@ func spawnCows():
 		var cowInstance = cowScene.instantiate()
 		cowInstance.positionOnMap = cow
 		cowInstance.position.x = cow[0] * Gamemanager.mapTileSize.x
-		cowInstance.position.y = cow[1] * Gamemanager.mapTileSize.y
+		cowInstance.position.y = cow[1] * Gamemanager.mapTileSize.y + Gamemanager.offset["cow"].y
 		cowInstance.connect("cowMoving", setCowMoving)
 		cowInstance.connect("cowDespawned", checkForLevelEnding)
 		cowsNode.add_child(cowInstance)
@@ -67,7 +66,7 @@ func spawnCows():
 func spawnObstacles():
 	for row in range(Gamemanager.mapDimensions.y):
 		for col in range(Gamemanager.mapDimensions.x):
-			var obstacleInstance: Sprite2D = null
+			var obstacleInstance: Node2D = null
 			
 			if mapStart[row][col] == "hay":
 				obstacleInstance = hayScene.instantiate()
@@ -80,7 +79,7 @@ func spawnObstacles():
 				obstacleInstance.positionOnMap = Vector2(col, row)
 				obstacleInstance.obstacleType = mapStart[row][col]
 				obstacleInstance.position.x = col * Gamemanager.mapTileSize.x
-				obstacleInstance.position.y = row * Gamemanager.mapTileSize.y
+				obstacleInstance.position.y = row * Gamemanager.mapTileSize.y + Gamemanager.offset[mapStart[row][col]].y
 				obstaclesNode.add_child(obstacleInstance)
 
 func moveCow(startPos: Vector2, direction: Vector2):

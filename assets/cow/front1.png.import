@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cni4qn4v30rsp"
-path="res://.godot/imported/butt9.png-b325f6eaf65bf98da73c621667d179fc.ctex"
+uid="uid://84n31a88w0qw"
+path="res://.godot/imported/front1.png-637b2b0fddfbd1bb3e7d2b915c7be3a7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/cows/butt9.png"
-dest_files=["res://.godot/imported/butt9.png-b325f6eaf65bf98da73c621667d179fc.ctex"]
+source_file="res://assets/cow/front1.png"
+dest_files=["res://.godot/imported/front1.png-637b2b0fddfbd1bb3e7d2b915c7be3a7.ctex"]
 
 [params]
 

@@ -13,6 +13,13 @@ var mapTileSize := Vector2(250, 250)
 
 var levelMenuDimensions := Vector2(4, 6)
 
+var offset := {
+	"cow": Vector2(0, -60),
+	"hay": Vector2(0, -30),
+	"destination": Vector2(0, 0),
+	"rock": Vector2(0, -35),
+}
+
 var mapTiles := [
 	{
 		"name": "grass",

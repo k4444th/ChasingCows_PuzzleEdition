@@ -1,7 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://cjxnn5w0yaq7x"]
+[gd_scene load_steps=4 format=3 uid="uid://cjxnn5w0yaq7x"]
 
 [ext_resource type="PackedScene" uid="uid://k3tqyfdvx0x" path="res://scenes/level/obstacle.tscn" id="1_1di36"]
+[ext_resource type="Texture2D" uid="uid://dw0stmkvl30v7" path="res://assets/cow/shadow.png" id="2_74dau"]
 [ext_resource type="Texture2D" uid="uid://dooxcuxqajcts" path="res://assets/level/tiles/tileRock.png" id="2_mek2u"]
 
 [node name="Rock" instance=ExtResource("1_1di36")]
+
+[node name="Shadow" parent="." index="0"]
+position = Vector2(-60, -20)
+scale = Vector2(1.5, 1)
+texture = ExtResource("2_74dau")
+
+[node name="Obstacle" parent="." index="1"]
 texture = ExtResource("2_mek2u")

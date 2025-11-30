@@ -1,7 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://b854vj6icuw80"]
+[gd_scene load_steps=4 format=3 uid="uid://b854vj6icuw80"]
 
 [ext_resource type="Texture2D" uid="uid://b8lokj1jiywgn" path="res://assets/level/tiles/tileHay.png" id="1_0gib2"]
 [ext_resource type="PackedScene" uid="uid://k3tqyfdvx0x" path="res://scenes/level/obstacle.tscn" id="1_a21xl"]
+[ext_resource type="Texture2D" uid="uid://dw0stmkvl30v7" path="res://assets/cow/shadow.png" id="2_btnfg"]
 
 [node name="Hay" instance=ExtResource("1_a21xl")]
+
+[node name="Shadow" parent="." index="0"]
+position = Vector2(-60, -35)
+scale = Vector2(1.5, 1)
+texture = ExtResource("2_btnfg")
+
+[node name="Obstacle" parent="." index="1"]
 texture = ExtResource("1_0gib2")

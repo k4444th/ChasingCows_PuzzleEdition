@@ -16,6 +16,7 @@ config/features=PackedStringArray("4.4", "Forward Plus")
 boot_splash/bg_color=Color(0.537255, 0.682353, 0.411765, 1)
 boot_splash/fullsize=false
 boot_splash/image="uid://84n31a88w0qw"
+config/icon="uid://84n31a88w0qw"
 
 [autoload]
 

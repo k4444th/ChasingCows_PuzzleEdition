@@ -11,7 +11,7 @@ var despawn := false
 
 func _ready() -> void:
 	shadowNode.self_modulate.a = 0.25
-	cowNode.animation = "right"
+	cowNode.animation = "standing"
 
 func moveCow(numTiles: int, direction: Vector2):
 	if direction.x > 0:
@@ -23,12 +23,14 @@ func moveCow(numTiles: int, direction: Vector2):
 	if direction.y < 0:
 		cowNode.animation = "back"
 	
+	cowNode.play()
+	
 	cowMoving.emit(true)
 	var positionTween = get_tree().create_tween()
 	positionTween.tween_property(self, "position", positionOnMap * Gamemanager.mapTileSize + Gamemanager.offset["cow"], Gamemanager.moveSpeed * numTiles).set_trans(Tween.TRANS_LINEAR)
 	await positionTween.finished
 	cowMoving.emit(false)
-	cowNode.animation = "right"
+	cowNode.animation = "standing"
 	
 	if despawn:
 		cowDespawned.emit()
